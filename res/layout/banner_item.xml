@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp" >
+
+    <ImageView
+        android:id="@+id/banner_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        />
+     <RelativeLayout
+                    android:background="#604D4D4D"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+    <TextView
+        android:text="我和念珍就是这样一个朋友"
+        android:id="@+id/tv_top_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="#F2F2F2"
+        android:textSize="21sp"
+        android:textStyle="bold" />
+</RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2" >
+
+    <TextView
+        android:id="@+id/bg_tv"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#5BB193" />
+
+    <RelativeLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/bg_tv"
+        android:background="#2F957B" >
+
+        <ImageView
+            android:id="@+id/iv_menu"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/menu" />
+
+        <TextView
+            android:id="@+id/tv_title_bar_main"
+            android:layout_width="wrap_content"
+            android:singleLine="true"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_menu"
+            android:gravity="center_vertical"
+            android:textColor="#fff"
+            android:textSize="18sp" />
+
+        <WebView
+            android:id="@+id/webview_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_gone"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_download"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="50dp"
+            android:src="@drawable/download" />
+
+        <ImageView
+            android:id="@+id/iv_overflow"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/overflow" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_layout" >
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <com.ztx.zhihu.view.LoadListView
+                android:id="@+id/lv_content_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="#00000000"
+                android:dividerHeight="5dp" >
+            </com.ztx.zhihu.view.LoadListView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_download"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/title_layout"
+        android:background="#59CBC3"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/download_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:text=""
+            android:textColor="#fff" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 下拉刷新颜色 -->
+     <color name="refresh_0">#07B7FD</color>
+     <color name="cardview_normal">#9A5B5B</color>
+     <color name="cardview_pressed">#EEEEEE</color>
+     <color name="drawer_item_pressed">#DDDDDD</color>
+</resources>
