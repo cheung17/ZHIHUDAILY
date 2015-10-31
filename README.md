@@ -9,7 +9,7 @@
   * 等
   
 ####效果预览
-(https://raw.githubusercontent.com/cheung17/ZHIHUDAILY/master/images/shot1.png)
-(https://raw.githubusercontent.com/cheung17/ZHIHUDAILY/master/images/shot2.png)
-(https://raw.githubusercontent.com/cheung17/ZHIHUDAILY/master/images/shot3.png)
-(https://raw.githubusercontent.com/cheung17/ZHIHUDAILY/master/images/shot4.png)
+![image](https://raw.githubusercontent.com/cheung17/ZHIHUDAILY/master/images/shot1.png)
+![image](https://raw.githubusercontent.com/cheung17/ZHIHUDAILY/master/images/shot2.png)
+![image](https://raw.githubusercontent.com/cheung17/ZHIHUDAILY/master/images/shot3.png)
+![image](https://raw.githubusercontent.com/cheung17/ZHIHUDAILY/master/images/shot4.png)
