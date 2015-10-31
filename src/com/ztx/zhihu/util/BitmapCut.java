@@ -240,7 +240,7 @@ public class BitmapCut {
 			bitmap=BitmapFactory.decodeStream(context
 					.getContentResolver().openInputStream(imageUri)) ;
 		} catch (Exception e) {
-			bitmap=BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
+			bitmap=BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_logo);
 		}
 		
 		if (bitmap == null) {

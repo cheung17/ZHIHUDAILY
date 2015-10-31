@@ -73,7 +73,7 @@ public class LoadListView extends ListView implements OnScrollListener,
 		tip4 = (TextView) bannerView.findViewById(R.id.vp4);
 		bannerView.setVisibility(View.VISIBLE);
 		viewPager = (ViewPager) bannerView.findViewById(R.id.viewPager);
-		footerView.findViewById(R.id.load_layout).setVisibility(View.VISIBLE); // Ĭ������
+		footerView.findViewById(R.id.load_layout).setVisibility(View.VISIBLE);
 		this.addFooterView(footerView); // 添加底部view
 		this.addHeaderView(bannerView);
 		
@@ -129,7 +129,6 @@ public class LoadListView extends ListView implements OnScrollListener,
 		//if(firstVisibleItem!=0){
 		MainAdpter.setDateTitle(firstVisibleItem);
 		//}
-		
 	}
 
 	public void onCompleteLoad() { // 加载完成时回调

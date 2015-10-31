@@ -20,8 +20,9 @@
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="正在加载"
-            android:textSize="20sp" />
+            android:text="Loading"
+            android:textColor="#878787"
+            />
     </LinearLayout>
 
 </RelativeLayout>

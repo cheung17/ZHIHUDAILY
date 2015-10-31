@@ -47,7 +47,6 @@ public class DataInfo {
 	public static final int CONTENTREADACTIVITY = 2;
 	public static final int COLLECTACTIVITY = 1;
 	public static final int COMMENTACTIVITY = 3;
-
 	public static class ServerUrl {
 		public static String REDIRECTURI = "https://api.weibo.com/oauth2/default.html";// 重定向地址
 		public static String LATESTNEWS = "http://news-at.zhihu.com/api/4/news/latest";

@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
 
@@ -14,11 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -45,10 +42,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.DisplayImageOptions.Builder;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.ztx.zhihu.R;
 import com.ztx.zhihu.adpter.MainAdpter;
 import com.ztx.zhihu.db.ContentBean;
@@ -78,15 +72,13 @@ public class MainActivity extends Activity implements OnClickListener,
 	private ImageView HeadIv;
 	private RelativeLayout homeLayout, collectLaout;
 	private int datetime;
-	private SharedPreferences sf;
-	private Editor editor;
 	private RelativeLayout downloadLayout;
 	private TextView downLoadTv, userNameTv;
 	private ImageView overFlowIv;
-	private boolean isNotEmpty = true;
 	int firstItem;
 	int position = 0;
 
+	@SuppressLint("InlinedApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -122,8 +114,6 @@ public class MainActivity extends Activity implements OnClickListener,
 			}
 			dataList = dbManager.findByDate(datetime + "");
 			topNewsList = dbManager.findByDate(000 + ""); // 寻找banner的数据
-			Toast.makeText(getApplicationContext(), topNewsList.size() + "", 1)
-					.show();
 			contentLv.setDataList(topNewsList, imageLoader, options);
 		} else {
 			// 数据表为空 从网络获取当日最新消息
@@ -131,6 +121,8 @@ public class MainActivity extends Activity implements OnClickListener,
 		}
 	}
 
+	@SuppressWarnings("static-access")
+	@SuppressLint("SimpleDateFormat")
 	private int initLastDay() {
 		Date date = mDate;
 		Calendar calendar = new GregorianCalendar();
@@ -190,6 +182,7 @@ public class MainActivity extends Activity implements OnClickListener,
 
 	}
 
+	@SuppressWarnings("deprecation")
 	private void initViews() {
 		contentLv = (LoadListView) findViewById(R.id.lv_content_main);
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
@@ -217,10 +210,15 @@ public class MainActivity extends Activity implements OnClickListener,
 		ImageLoaderIV = (ImageView) findViewById(R.id.iv_gone);
 		initWebview();
 		initDrawer();
+		// 点击item 跳转阅读
 		contentLv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				if (position > dataList.size()) {
+					// 点击的是上拉加载那一项
+					return;
+				}
 				Intent intent = new Intent(MainActivity.this,
 						ContentReadActivity.class);
 				intent.putExtra("id", dataList.get(position - 1).getContentID());
@@ -245,6 +243,7 @@ public class MainActivity extends Activity implements OnClickListener,
 		homeLayout.setOnClickListener(this);
 	}
 
+	@SuppressLint("SetJavaScriptEnabled")
 	private void initWebview() {
 		webView.getSettings().setJavaScriptEnabled(true);// 支持js
 		webView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN); // html内容居中
@@ -275,12 +274,24 @@ public class MainActivity extends Activity implements OnClickListener,
 						newsDb.addOne(newsBean);
 						loadData(t.toString());
 						position = position + 1;
-						System.out.println("离线成功" + id + "  " + position);
 						if (position < dataList.size()) {
 							getNewPosition(dataList.get(position)
 									.getContentID(), newsDb);// 判断是否已保存
 						}
 						super.onSuccess(t);
+					}
+
+					@Override
+					public void onFailure(Throwable t, int errorNo,
+							String strMsg) {
+						super.onFailure(t, errorNo, strMsg);
+						downLoadTv.setText("网络不可用");
+						new Handler().postDelayed(new Runnable() {
+							@Override
+							public void run() {
+								startAnimation(1, 0);
+							}
+						}, 3000);
 					}
 
 				});
@@ -298,13 +309,11 @@ public class MainActivity extends Activity implements OnClickListener,
 				getNewPosition(dataList.get(position).getContentID(), newsDb);
 			}
 		} else {
-			// Toast.makeText(getApplicationContext(), "离线完毕", 1).show();
 			downLoadTv.setText("离线完毕");
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {
 					startAnimation(1, 0);
-					Toast.makeText(getApplicationContext(), "隐藏", 1).show();
 				}
 			}, 3000);
 			position = 0;
@@ -370,7 +379,6 @@ public class MainActivity extends Activity implements OnClickListener,
 
 	private void gotoLogin() {
 		if (!DataInfo.isNetWorkAvailable(getApplicationContext())) {
-			Toast.makeText(getApplicationContext(), "网络不可用", 1).show();
 			return;
 		}
 		Intent intent = new Intent(MainActivity.this, SinaOAuthActivity.class);
@@ -387,7 +395,8 @@ public class MainActivity extends Activity implements OnClickListener,
 			startAnimation((float) 0.5, 1);
 			cacheFromServer(dataList.get(position).getContentID());
 		} else {
-			Toast.makeText(getApplicationContext(), "网络问题", 1).show();
+			Toast.makeText(getApplicationContext(), "网络问题", Toast.LENGTH_SHORT)
+					.show();
 		}
 	}
 
@@ -403,21 +412,19 @@ public class MainActivity extends Activity implements OnClickListener,
 		datetime = initLastDay();
 		DbManager dbManager = new DbManager(getApplicationContext());
 		if (DataInfo.isNetWorkAvailable(getApplicationContext())) {
-			// 如果数据库为空 从网络读取
-			Toast.makeText(getApplicationContext(), "onload网络" + datetime, 1)
-					.show();
-			dbManager.deleteOneBydate(datetime + "");//删除
+			// 网络可用 从网络读取
+			dbManager.deleteOneBydate(datetime + "");// 删除之前可能并不完整的条目
 			LoadDataFromServer(DataInfo.ServerUrl.NEWSBEFORE + (datetime + 1));
 		} else {
 			List<ContentBean> newList = dbManager.findByDate(datetime + "");
 			for (int i = 0; i < newList.size(); i++) {
 				dataList.add(newList.get(i));
 			}
-			Toast.makeText(getApplicationContext(), "onload本地" + datetime, 1)
-					.show();
+			Toast.makeText(getApplicationContext(),
+					dataList.size() + "onload本地" + datetime + "",
+					Toast.LENGTH_SHORT).show();
 			contentLv.onCompleteLoad();
 			contentAdpter.refreshAdapter(dataList);
-
 		}
 	}
 
@@ -428,6 +435,9 @@ public class MainActivity extends Activity implements OnClickListener,
 	}
 
 	private void refreshData() {
+		// 初始化用户信息
+		DataInfo.initSinaUserInfo(HeadIv, userNameTv,
+				getSharedPreferences("sina_user_info", MODE_PRIVATE));
 		FinalHttp fh = new FinalHttp();
 		fh.get(DataInfo.ServerUrl.LATESTNEWS, new AjaxCallBack<Object>() {
 			@Override
@@ -472,8 +482,6 @@ public class MainActivity extends Activity implements OnClickListener,
 						topNewsList.add(contentDb);
 					}
 					dbManager.addAll(topNewsList); // 存入新的banner数据
-					Toast.makeText(getApplicationContext(),
-							topNewsList.size() + "条", 1).show();
 					contentLv.setDataList(topNewsList, imageLoader, options); // banner初始化
 					// 停止刷新
 					swipeRefreshLayout.setRefreshing(false);
@@ -492,13 +500,27 @@ public class MainActivity extends Activity implements OnClickListener,
 					@Override
 					public void run() {
 						swipeRefreshLayout.setRefreshing(false);
-						Toast.makeText(getApplicationContext(), "网络问题", 1)
-								.show();
+						Toast.makeText(getApplicationContext(), "网络问题",
+								Toast.LENGTH_SHORT).show();
 					}
 				}, 3000);
 			}
 		});
 
+	}
+
+	private long firstTime = 0;
+
+	@Override
+	public void onBackPressed() {
+		long secondTime = System.currentTimeMillis();
+		if (secondTime - firstTime > 2000) { // 如果两次按键时间间隔大于2秒，则不退出
+			Toast.makeText(this, "再按一次退出日报", Toast.LENGTH_SHORT).show();
+			firstTime = secondTime;// 更新firstTime
+		} else { // 两次按键小于2秒时，退出应用
+			finish();
+			System.exit(0);
+		}
 	}
 
 }

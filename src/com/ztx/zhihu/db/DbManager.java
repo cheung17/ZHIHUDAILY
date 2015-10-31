@@ -42,8 +42,6 @@ public class DbManager {
 	}
 	
 	public List<ContentBean> findByDate(String date) {
-		//finalDb.update("title='你好'", "date="+date);
-		//finalDb.update("update set title='你好' where date='20151019'");
 		List<ContentBean> contents=finalDb.findAllByWhere(ContentBean.class, "date="+date);
 		return contents;
 	}

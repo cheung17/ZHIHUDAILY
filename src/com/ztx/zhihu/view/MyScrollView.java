@@ -89,19 +89,4 @@ public class MyScrollView extends ScrollView {
 		public void onScroll(int scrollY);
 	}
 
-	@Override
-	/**
-	 *  l    Current horizontal scroll origin.
-	    t    Current vertical scroll origin.
-	    oldl Previous horizontal scroll origin.
-	    oldt Previous vertical scroll origin.
-	 */
-	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-
-		super.onScrollChanged(l, t, oldl, oldt);
-		if (oldt > t && oldt - t > 5) {// 向下
-			
-		} else if (oldt < t && t - oldt > 5) {// 向上
-		}
-	}
 }

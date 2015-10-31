@@ -103,6 +103,7 @@ public class SinaOAuthActivity extends Activity {
 							DataInfo.sinaUserID = jsont.getString("uid");
 							DataInfo.accessToken = jsont
 									.getString("access_token");
+							DataInfo.isLogined=true;
 							sf = getSharedPreferences("sina_user_info",
 									MODE_PRIVATE);
 							editor = sf.edit();
