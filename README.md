@@ -7,3 +7,7 @@
   * 离线下载
   * 自建服务器评论收藏
   * 等
+https://raw.githubusercontent.com/cheung17/ZHIHUDAILY/master/images/shot1.png
+https://raw.githubusercontent.com/cheung17/ZHIHUDAILY/master/images/shot2.png
+https://raw.githubusercontent.com/cheung17/ZHIHUDAILY/master/images/shot3.png
+https://raw.githubusercontent.com/cheung17/ZHIHUDAILY/master/images/shot4.png
