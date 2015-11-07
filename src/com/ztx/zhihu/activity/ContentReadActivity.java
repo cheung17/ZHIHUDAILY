@@ -337,18 +337,21 @@ public class ContentReadActivity extends Activity implements OnClickListener,
 	@Override
 	public void onScroll(int scrollY) {
 		// System.out.println(slideDis + ":dis" + "scrollY: " + scrollY);
+		
 		if (scrollY < slideDis) {
 			setAapha(scrollY);
+		}else {
+			rvTitleLayout.getBackground().setAlpha(255);
 		}
 	}
-
 	private void setAapha(int scrollY) {
 		float h = slideDis;
 		float y = scrollY;
 		float alpha = (y / h) * 255;
+		System.out.println("scrollY: "+scrollY);
+		System.out.println(alpha+"");
 		rvTitleLayout.getBackground().setAlpha((int) alpha);
 	}
-
 	private void startAnimation(float start, float end) {
 		Animation alphaAnimation = new AlphaAnimation(start, end);
 		alphaAnimation.setDuration(500);
