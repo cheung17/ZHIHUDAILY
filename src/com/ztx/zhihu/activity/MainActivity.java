@@ -1,5 +1,6 @@
 package com.ztx.zhihu.activity;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -134,8 +135,9 @@ public class MainActivity extends Activity implements OnClickListener,
 		mDate = date;
 		return Integer.parseInt(lastDay);
 	}
-
+    
 	private void LoadDataFromServer(String url) {
+		System.out.println(url);
 		FinalHttp fh = new FinalHttp();
 		fh.get(url, new AjaxCallBack<Object>() {
 			@Override
@@ -173,6 +175,7 @@ public class MainActivity extends Activity implements OnClickListener,
 			@Override
 			public void onFailure(Throwable t, int errorNo, String strMsg) {
 				super.onFailure(t, errorNo, strMsg);
+				//onload();
 				System.out.println("网络问题");
 				System.out.println(strMsg.toString());
 				System.out.println(t.toString());
@@ -409,13 +412,17 @@ public class MainActivity extends Activity implements OnClickListener,
 
 	@Override
 	public void onload() {
+		//下拉加载
+		//由于url后接的地址比返回的json的地址多一天
+		//所以要获取某一日的内容 必须把日期加一天
 		datetime = initLastDay();
+		String urlDate=formatDate(datetime+"");
 		DbManager dbManager = new DbManager(getApplicationContext());
 		if (DataInfo.isNetWorkAvailable(getApplicationContext())) {
 			// 网络可用 从网络读取
 			dbManager.deleteOneBydate(datetime + "");// 删除之前可能并不完整的条目
-			LoadDataFromServer(DataInfo.ServerUrl.NEWSBEFORE + (datetime + 1));
-		} else {
+			LoadDataFromServer(DataInfo.ServerUrl.NEWSBEFORE + (urlDate));
+		} else {//本地读取
 			List<ContentBean> newList = dbManager.findByDate(datetime + "");
 			for (int i = 0; i < newList.size(); i++) {
 				dataList.add(newList.get(i));
@@ -428,6 +435,24 @@ public class MainActivity extends Activity implements OnClickListener,
 		}
 	}
 
+	private String formatDate(String datetime2) {
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		 try {
+			Date date =sdf.parse(datetime2);
+			return sdf.format(initNextDay(date));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	public  Date initNextDay(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		Date date1 = new Date(calendar.getTimeInMillis());
+		return date1;
+	}
 	@Override
 	public void onRefresh() {
 		// 下拉刷新
