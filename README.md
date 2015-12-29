@@ -6,7 +6,7 @@
   * 微博登陆
   * 离线下载
   * 自建服务器评论收藏
-  * 等
+  * 导入前请先导入CardView
   
 ####效果预览
 ![image](https://raw.githubusercontent.com/cheung17/ZHIHUDAILY/master/images/shot1.png)
